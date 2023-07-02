@@ -1,8 +1,0 @@
-1: Victor Smirnov partner: Marya, parents: unknown, children: Elena Turova, Ksenya Ryzhova
-2: Marya Smirnova partner: Victor, parents: unknown, children: Elena Turova
-4: Fedor Turov partner: Elena, parents: unknown, children: Olga Boyko
-3: Elena Turova partner: Fedor, parents: Marya Smirnov Victor Smirnov, children: Olga Boyko
-5: Olga Boyko partner: no spouse, parents: Fedor Turov Elena Turova, children: Nika Boyko, Lev Boyko
-6: Nika Boyko partner: no spouse, parents: Olga Boyko, children: no children
-7: Ksenya Ryzhova partner: no spouse, parents: Victor Smirnov, children: no children
-8: Lev Boyko partner: no spouse, parents: Olga Boyko, children: no children

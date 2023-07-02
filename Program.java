@@ -1,5 +1,3 @@
-package FamilyTree;
-
 public class Program {
     public static void main(String[] args) {
         Person Victor = new Person(1, "Victor", "Smirnov", 73, Gender.MALE);
@@ -35,7 +33,6 @@ public class Program {
 
         tree.printTree(); 
         System.out.println("Family Tree" + "\n");
-        tree.saveToFile("newTree.txt"); 
     }
 }
 
