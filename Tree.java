@@ -1,66 +1,53 @@
-import java.io.FileWriter;
-import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class Tree {
-    private List<Person> people;
-
+    private List<Person> personList;
     public Tree() {
-        this.people = new ArrayList<Person>();
+        this(new ArrayList<>());
+    }
+    public Tree(List<Person> personList) { this.personList = personList; }
+
+    public boolean addPerson(Person person){
+        if (person == null) {
+            return false;
+        }
+        if (!personList.contains(person)){
+            personList.add(person);
+            if (person.getFather() != null){
+                person.getFather().addChild(person);
+            }
+            if (person.getMother() != null){
+                person.getMother().addChild(person);
+            }
+            return true;
+        }
+        return false;
     }
 
-    public void addPerson(Person person) {
-        people.add(person);
-    }
-
-    public void allTree() {
-        System.out.println(people);
-        System.out.println(people.size());
-    }
-
-    public void printTree() {
-        System.out.println("FamilyTree:");
-        for (Person person : people) {
-            if (person.getParents().isEmpty()) {
-                printNode(person, 0);
+    public Person getPersonByName(String name){
+        for (Person person: personList){
+            if (person.getName().equalsIgnoreCase(name)){
+                return person;
             }
         }
+        return null;
     }
+    public void addSpouse(Person spouse) { personList.add(spouse);}
 
-    private void printNode(Person person, int level) {
-        String tabs = "";
-        for (int i = 0; i < level; i++) {
-            tabs += "\t";
+    public String getInfo(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("В дереве ");
+        sb.append(personList.size());
+        sb.append(" человек: \n");
+        for (Person person: personList){
+            sb.append(person.getInfo());
+            sb.append("\n");
         }
-    
-        String parents = "";
-        Set<Person> parentsSet = new HashSet<>();
-        for (Person parent : person.getParents()) {
-            if(!parentsSet.contains(parent)){
-                parents += parent.getName() + " " + parent.getSurname() + " ";
-            }
-            parentsSet.add(parent);
-        }
-        if (parentsSet.size() > 1) {
-            parents = parents.substring(0, parents.length());
-        }
-        if (parentsSet.size() < 1) {
-            parents = "unknown";
-        }
-        
-        System.out.println(tabs + person.getName() + " " + person.getSurname() + "-parents: (" + parents + ")");
-        if (person.getPartner() != null) {
-            System.out.println(tabs + person.getPartner());
-        } else {
-            System.out.println(tabs + "no spouse");
-        }
-                
-        for (Person child : person.getChildren()) {
-            printNode(child, level + 1);
-        }
+        return sb.toString();
+    }
+    public void addPerson(String string, Gender male, LocalDate of) {
     }
 }
 
