@@ -1,9 +1,7 @@
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class Person {
     private String name;
@@ -15,23 +13,45 @@ public class Person {
     private Person spouse;
     private List<Person> children;
     private List<Person> parents;
-    public Person(String name, int i, Gender gender, LocalDate localDate) {
-        this(name, gender, null, null);
-    }
-    public Person(String name, Gender gender, Person father, Person mother) {
+    
+    public Person(String name, Gender gender, LocalDate birthDate, LocalDate deathDate, Person father, Person mother) {
         this.name = name;
         this.gender = gender;
+        this.birthDate = birthDate;
+        this.deathDate = deathDate;
         this.father = father;
         this.mother = mother;
+        parents = new ArrayList<>();
+        if (father != null) {
+            parents.add(father);
+        }
+        if (mother != null) {
+            parents.add(mother);
+        }
+
         children = new ArrayList<>();
     }
-    public void addChild(Person child) {
-        children.add(child);
-        if (gender == Gender.Male) {
-            child.setFather(this);
-        } else {
-            child.setMother(this);
+
+    public Person(String name, Gender gender, LocalDate birthDate){
+        this(name, gender, birthDate, null, null,null);
+    }
+    public Person(String name, Gender gender, LocalDate birthDate, Person father, Person mother) {
+        this(name, gender, birthDate, null, father, mother);
+    }
+
+    public boolean addChild(Person child) {
+        if(!children.contains(child)){
+            children.add(child);
+            return true;
         }
+        return false;
+    }
+    public boolean addParent(Person parent) {
+        if(!parents.contains(parent)){
+            parents.add(parent);
+            return true;
+        }
+        return false;
     }
     public void addFather(Person father) {
         this.father = father;
@@ -75,16 +95,6 @@ public class Person {
         spouse.setSpouse(this);
     }
 
-    public Set<Person> getParents() {
-        Set<Person> parents = new HashSet<>();
-        if (father != null) {
-            parents.add(father);
-        }
-        if (mother != null) {
-            parents.add(mother);
-        }
-        return parents;
-    }
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
@@ -102,7 +112,8 @@ public class Person {
         sb.append(", ");
         sb.append("пол: ");
         sb.append(getGender());
-        sb.append("возраст");
+        sb.append(", ");
+        sb.append("возраст: ");
         sb.append(getAge());
         sb.append(", ");
         sb.append("мать: ");
@@ -116,7 +127,7 @@ public class Person {
         return sb.toString();
     }
     public String getMotherInfo(){
-        String res = "мать: ";
+        String res = "";
         if (mother != null){
             res += mother.getName();
         } else {
@@ -125,7 +136,7 @@ public class Person {
         return res;
     }
     public String getFatherInfo(){
-        String res = "отец: ";
+        String res = "";
         if (father != null){
             res += father.getName();
         } else {
@@ -135,7 +146,7 @@ public class Person {
     }
     public String getChildrenInfo(){
         StringBuilder res = new StringBuilder();
-        res.append("дети: ");
+        res.append("");
         if (children.size() != 0){
             res.append(children.get(0).getName());
             for (int i = 1; i < children.size(); i++) {
