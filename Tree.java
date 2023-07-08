@@ -1,60 +1,60 @@
-import java.time.LocalDate;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tree {
-    private List<Person> personList;
+public class Tree implements Serializable{
+    private Writable writable;
+    private List<Person> PersonList;
+
     public Tree() {
         this(new ArrayList<>());
     }
-    public Tree(List<Person> personList) { this.personList = personList; }
 
-    public boolean addPerson(Person person){
-        if (person == null) {
-            return false;
-        }
-        if (!personList.contains(person)){
-            personList.add(person);
-            if (person.getFather() != null){
-                person.getFather().addChild(person);
-            }
-            if (person.getMother() != null){
-                person.getMother().addChild(person);
-            }
+    public Tree(List<Person> PersonList) {
+        this.PersonList = PersonList;
+    }
+
+    public List<Person> getPersonList() {
+        return PersonList;
+    }
+    public void setPersonList(List<Person> PersonList) {
+        this.PersonList = PersonList;
+    }
+
+    public Writable getWritable() {
+        return writable;
+    }
+    public void setWritable(Writable writable) {
+        this.writable = writable;
+    }
+
+    public boolean add(Person Person) {
+        if (Person == null) return false;
+        if (!PersonList.contains(Person)) {
+            PersonList.add(Person);
+ 
+          if (Person.getMother() != null) Person.getMother().addChild(Person);
+            if (Person.getFather() != null) Person.getFather().addChild(Person Child, getFather);
             return true;
         }
         return false;
     }
 
-    public Person getPersonByName(String name){
-        for (Person person: personList){
-            if (person.getName().equalsIgnoreCase(name)){
-                return person;
-            }
+        public Person getByName(String name) {
+        for (Person Person : PersonList) {
+            if (Person.getName() == name)
+                return Person;
         }
         return null;
     }
-    public void addSpouse(Person spouse) { personList.add(spouse);}
 
-    public String getInfo(){
-        StringBuilder sb = new StringBuilder();
-        sb.append("В дереве ");
-        sb.append(personList.size());
-        sb.append(" человек: \n");
-        for (Person person: personList){
-            sb.append(person.getInfo());
-            sb.append("\n");
-        }
-        return sb.toString();
+    @Override
+    public String toString() {
+        String list = "";
+        for (Person Person : PersonList)
+            list += Person.toString();
+        return list;
     }
-    public void addPerson(String string, Gender male, LocalDate of) {
-    }
-}
-
+} 
 
     
-    
-
-
-    
-
